@@ -1,29 +1,7 @@
 # browserslist-ui
 
-## Project setup
-```
-npm install
-```
+[![Netlify Status](https://api.netlify.com/api/v1/badges/5ed13c0d-f7f6-41f0-88c6-945a1bec8a2f/deploy-status)](https://app.netlify.com/sites/browserslist-ui/deploys)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Website: https://browserslist-ui.netlify.app/
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Web UI to verify browserslist queries and browsers coverage
