@@ -46,11 +46,11 @@
     <span>
       <a href="https://github.com/browserslist/browserslist">Browserslist</a>
       -
-      {{ browserslistVersion }}
+      {{ versions.browserslist }}
     </span>
     <span>
       <a href="https://github.com/ben-eb/caniuse-lite">caniuse-lite</a> -
-      {{ caniuseVersion }}
+      {{ versions.caniuse }}
     </span>
   </footer>
 </template>
@@ -58,9 +58,11 @@
 <script lang="ts">
 import browserslist from "browserslist";
 import { Options, Vue } from "vue-class-component";
+
 import Table from "./components/Table.vue";
 import Progress from "./components/Progress.vue";
 import { BrowserType, BrowserData, browserMap } from "./utils";
+import versions from "./versions.json";
 
 @Options({
   components: { Table, Progress },
@@ -69,6 +71,7 @@ import { BrowserType, BrowserData, browserMap } from "./utils";
       new URLSearchParams(window.location.search).get("q") || "defaults",
     queryError: false,
     totalCoverage: "unknown",
+    versions: versions,
   }),
   computed: {
     browserslistVersion() {
