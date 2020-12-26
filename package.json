@@ -23,13 +23,13 @@
   "homepage": "https://github.com/DamianOsipiuk/browserslist-ui#readme",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "update-packages": "node ./node_modules/.bin/browserslist --update-db && ./get-package-versions.sh",
+    "build": "npm run update-packages && vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "browserslist": "^4.16.0",
-    "caniuse-lite": "^1.0.30001158",
     "core-js": "^3.8.1",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",
