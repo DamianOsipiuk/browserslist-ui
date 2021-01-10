@@ -12,10 +12,5 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - uses: jsmrcaga/action-netlify-deploy@v1.2.0
-        with:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_DEPLOY_MESSAGE: "Github automatic deploy"
-          NETLIFY_DEPLOY_TO_PROD: true
-          build_directory: "dist"
+      - name: Deploy to Netlify
+        run: curl -X POST -d {} https://api.netlify.com/build_hooks/5ffb05a934de3fab18123a77
