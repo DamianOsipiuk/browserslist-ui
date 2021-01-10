@@ -23,8 +23,9 @@
   "homepage": "https://github.com/DamianOsipiuk/browserslist-ui#readme",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "update-packages": "node ./node_modules/.bin/browserslist --update-db && ./get-package-versions.sh",
-    "build": "npm run update-packages && vue-cli-service build",
+    "update-db": "npx browserslist --update-db",
+    "get-versions": "bash ./get-package-versions.sh",
+    "build": "npm run update-db && npm run get-versions && vue-cli-service build --modern",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
