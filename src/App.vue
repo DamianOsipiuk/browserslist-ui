@@ -41,7 +41,7 @@
   <footer>
     <span>
       Source -
-      <a href="https://github.com/DamianOsipiuk">GitHub</a>
+      <a href="https://github.com/DamianOsipiuk/browserslist-ui">GitHub</a>
     </span>
     <span>
       <a href="https://github.com/browserslist/browserslist">Browserslist</a>
@@ -57,36 +57,53 @@
 
 <script lang="ts">
 import browserslist from "browserslist";
-import { Options, Vue } from "vue-class-component";
+import { computed, ComputedRef, ref, Ref } from "vue";
 
 import Table from "./components/Table.vue";
 import Progress from "./components/Progress.vue";
 import { BrowserType, BrowserData, browserMap } from "./utils";
 import versions from "./versions.json";
 
-@Options({
+interface AppSetupResult {
+  browserString: Ref<string>;
+  queryError: Ref<boolean>;
+  totalCoverage: Ref<string>;
+  versions: {
+    browserslist: string;
+    caniuse: string;
+  };
+  appendQueryToUrl: () => void;
+  desktopBrowsers: ComputedRef<BrowserData[]>;
+  mobileBrowsers: ComputedRef<BrowserData[]>;
+}
+
+export default {
+  name: "App",
   components: { Table, Progress },
-  data: () => ({
-    browserString:
-      new URLSearchParams(window.location.search).get("q") || "defaults",
-    queryError: false,
-    totalCoverage: "unknown",
-    versions: versions,
-  }),
-  computed: {
-    browserslistVersion() {
-      // @ts-expect-error TODO
-      return window.browserslistVersion;
-    },
-    caniuseVersion() {
-      // @ts-expect-error TODO
-      return window.caniuseVersion;
-    },
-    browserData(): BrowserData[] {
+  setup: (): AppSetupResult => {
+    const browserString = ref(
+      decodeURIComponent(
+        new URLSearchParams(window.location.search).get("q") || "defaults",
+      ),
+    );
+    const queryError = ref(false);
+    const totalCoverage = ref("0");
+
+    const appendQueryToUrl = () => {
+      if (!queryError.value) {
+        history.replaceState(
+          undefined,
+          "Browserslist UI",
+          "/?q=" + encodeURIComponent(browserString.value),
+        );
+      }
+    };
+
+    const browserData = computed((): BrowserData[] => {
       let data: Record<string, BrowserData> = {};
-      this.queryError = false;
+      queryError.value = false;
       try {
-        const result = browserslist(this.browserString);
+        const result = browserslist(browserString.value);
         const usageData = browserslist.usage.global;
         data = result.reduce((acc: Record<string, BrowserData>, item) => {
           const coverage = usageData?.[item].toFixed(2) + "%" || "unknown";
@@ -110,38 +127,38 @@ import versions from "./versions.json";
           }
           return acc;
         }, {});
-        this.totalCoverage = browserslist.coverage(result).toFixed(2);
+        totalCoverage.value = browserslist.coverage(result).toFixed(2);
       } catch (error) {
-        this.queryError = true;
-        this.totalCoverage = 0;
+        queryError.value = true;
+        totalCoverage.value = "0";
       }
 
       return Object.values(data);
-    },
-    desktopBrowsers() {
-      return this.browserData.filter(
+    });
+
+    const desktopBrowsers = computed(() => {
+      return browserData.value.filter(
         (browser: BrowserData) => browser.type === BrowserType.Desktop,
       );
-    },
-    mobileBrowsers() {
-      return this.browserData.filter(
+    });
+
+    const mobileBrowsers = computed(() => {
+      return browserData.value.filter(
         (browser: BrowserData) => browser.type === BrowserType.Mobile,
       );
-    },
+    });
+
+    return {
+      browserString,
+      queryError,
+      totalCoverage,
+      versions,
+      appendQueryToUrl,
+      desktopBrowsers,
+      mobileBrowsers,
+    };
   },
-  methods: {
-    appendQueryToUrl() {
-      if (!this.queryError) {
-        history.replaceState(
-          undefined,
-          "Browserslist UI",
-          "/?q=" + this.browserString,
-        );
-      }
-    },
-  },
-})
-export default class App extends Vue {}
+};
 </script>
 
 <style>

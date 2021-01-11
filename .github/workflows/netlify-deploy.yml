@@ -11,6 +11,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
       - name: Deploy to Netlify
         run: curl -X POST -d {} https://api.netlify.com/build_hooks/5ffb05a934de3fab18123a77

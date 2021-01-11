@@ -18,15 +18,17 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
 import { BrowserData } from "../utils";
 
-@Options({
+export default {
+  name: "Table",
   props: {
-    browser: {} as BrowserData,
+    browser: {
+      type: Object,
+      default: {} as BrowserData,
+    },
   },
-})
-export default class Table extends Vue {}
+};
 </script>
 
 <style scoped>

@@ -6,14 +6,15 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-
-@Options({
+export default {
+  name: "Progress",
   props: {
-    value: 0,
+    value: {
+      type: String,
+      default: "0",
+    },
   },
-})
-export default class Progress extends Vue {}
+};
 </script>
 
 <style scoped>
