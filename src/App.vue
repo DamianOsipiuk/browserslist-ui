@@ -82,9 +82,7 @@ export default {
   components: { Table, Progress },
   setup: (): AppSetupResult => {
     const browserString = ref(
-      decodeURIComponent(
-        new URLSearchParams(window.location.search).get("q") || "defaults",
-      ),
+      new URLSearchParams(window.location.search).get("q") || "defaults",
     );
     const queryError = ref(false);
     const totalCoverage = ref("0");
