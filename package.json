@@ -1,6 +1,6 @@
 {
   "name": "browserslist-ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Browserslist UI",
   "engines": {
     "node": ">=12.11"
@@ -23,18 +23,17 @@
   "homepage": "https://github.com/DamianOsipiuk/browserslist-ui#readme",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "update-db": "npx browserslist --update-db",
-    "get-versions": "bash ./get-package-versions.sh",
     "build": "npm run update-db && npm run get-versions && vue-cli-service build --modern",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "get-versions": "bash ./get-package-versions.sh",
+    "update-db": "npx browserslist --update-db"
   },
   "dependencies": {
-    "browserslist": "^4.16.0",
-    "core-js": "^3.8.1",
-    "vue": "^3.0.0",
-    "vue-class-component": "^8.0.0-0",
-    "vue-material": "^1.0.0-beta-15"
+    "browserslist": "^4.16.1",
+    "core-js": "^3.8.2",
+    "register-service-worker": "^1.7.1",
+    "vue": "^3.0.5"
   },
   "devDependencies": {
     "@types/browserslist": "^4.8.0",
@@ -44,6 +43,7 @@
     "@typescript-eslint/parser": "^4.10.0",
     "@vue/cli-plugin-babel": "~4.5.9",
     "@vue/cli-plugin-eslint": "~4.5.9",
+    "@vue/cli-plugin-pwa": "^4.5.10",
     "@vue/cli-plugin-typescript": "~4.5.9",
     "@vue/cli-plugin-unit-jest": "~4.5.9",
     "@vue/cli-service": "~4.5.9",
