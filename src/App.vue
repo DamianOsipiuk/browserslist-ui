@@ -1,68 +1,6 @@
-<template>
-  <h1>Browserslist UI</h1>
-  <div class="query">
-    <div class="input">
-      <input
-        id="userInput"
-        v-on:input="appendQueryToUrl"
-        v-model="browserString"
-      />
-      <label for="userInput">
-        &#128269;
-        <a
-          href="https://github.com/browserslist/browserslist#query-composition"
-        >
-          Browserslist query
-        </a>
-        <span class="error" v-if="queryError">&#10071; Invalid query</span>
-      </label>
-    </div>
-  </div>
-
-  <Progress v-bind:value="totalCoverage" />
-  <main>
-    <section>
-      <h1>Desktop Browsers</h1>
-      <Table
-        v-for="browser in desktopBrowsers"
-        :key="browser.name"
-        :browser="browser"
-      />
-    </section>
-    <section>
-      <h1>Mobile Browsers</h1>
-      <Table
-        v-for="browser in mobileBrowsers"
-        :key="browser.name"
-        :browser="browser"
-      />
-    </section>
-  </main>
-  <footer>
-    <div>
-      <p>Source</p>
-      <p>
-        <a href="https://github.com/DamianOsipiuk/browserslist-ui">GitHub</a>
-      </p>
-    </div>
-    <div>
-      <p>
-        <a href="https://github.com/browserslist/browserslist">Browserslist</a>
-      </p>
-      <p>{{ versions.browserslist }}</p>
-    </div>
-    <div>
-      <p>
-        <a href="https://github.com/ben-eb/caniuse-lite">caniuse-lite</a>
-      </p>
-      <p>{{ versions.caniuse }}</p>
-    </div>
-  </footer>
-</template>
-
 <script lang="ts">
 import browserslist from "browserslist";
-import { computed, ComputedRef, ref, Ref } from "vue";
+import { computed, ComputedRef, defineComponent, ref, Ref } from "vue";
 
 import Table from "./components/Table.vue";
 import Progress from "./components/Progress.vue";
@@ -82,13 +20,14 @@ interface AppSetupResult {
   mobileBrowsers: ComputedRef<BrowserData[]>;
 }
 
-export default {
+export default defineComponent({
   name: "App",
   components: { Table, Progress },
   setup: (): AppSetupResult => {
     const browserString = ref(
       new URLSearchParams(window.location.search).get("q") || "defaults",
     );
+    const browserData = ref([] as BrowserData[]);
     const queryError = ref(false);
     const totalCoverage = ref("0");
 
@@ -161,8 +100,70 @@ export default {
       mobileBrowsers,
     };
   },
-};
+});
 </script>
+
+<template>
+  <h1>Browserslist UI</h1>
+  <div class="query">
+    <div class="input">
+      <input
+        id="userInput"
+        v-on:input="appendQueryToUrl"
+        v-model="browserString"
+      />
+      <label for="userInput">
+        &#128269;
+        <a
+          href="https://github.com/browserslist/browserslist#query-composition"
+        >
+          Browserslist query
+        </a>
+        <span class="error" v-if="queryError">&#10071; Invalid query</span>
+      </label>
+    </div>
+  </div>
+
+  <Progress v-bind:value="totalCoverage" />
+  <main>
+    <section>
+      <h1>Desktop Browsers</h1>
+      <Table
+        v-for="browser in desktopBrowsers"
+        :key="browser.name"
+        :browser="browser"
+      />
+    </section>
+    <section>
+      <h1>Mobile Browsers</h1>
+      <Table
+        v-for="browser in mobileBrowsers"
+        :key="browser.name"
+        :browser="browser"
+      />
+    </section>
+  </main>
+  <footer>
+    <div>
+      <p>Source</p>
+      <p>
+        <a href="https://github.com/DamianOsipiuk/browserslist-ui">GitHub</a>
+      </p>
+    </div>
+    <div>
+      <p>
+        <a href="https://github.com/browserslist/browserslist">Browserslist</a>
+      </p>
+      <p>{{ versions.browserslist }}</p>
+    </div>
+    <div>
+      <p>
+        <a href="https://github.com/ben-eb/caniuse-lite">caniuse-lite</a>
+      </p>
+      <p>{{ versions.caniuse }}</p>
+    </div>
+  </footer>
+</template>
 
 <style>
 @media (max-width: 700px) {
