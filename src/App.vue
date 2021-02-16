@@ -39,19 +39,24 @@
     </section>
   </main>
   <footer>
-    <span>
-      Source -
-      <a href="https://github.com/DamianOsipiuk/browserslist-ui">GitHub</a>
-    </span>
-    <span>
-      <a href="https://github.com/browserslist/browserslist">Browserslist</a>
-      -
-      {{ versions.browserslist }}
-    </span>
-    <span>
-      <a href="https://github.com/ben-eb/caniuse-lite">caniuse-lite</a> -
-      {{ versions.caniuse }}
-    </span>
+    <div>
+      <p>Source</p>
+      <p>
+        <a href="https://github.com/DamianOsipiuk/browserslist-ui">GitHub</a>
+      </p>
+    </div>
+    <div>
+      <p>
+        <a href="https://github.com/browserslist/browserslist">Browserslist</a>
+      </p>
+      <p>{{ versions.browserslist }}</p>
+    </div>
+    <div>
+      <p>
+        <a href="https://github.com/ben-eb/caniuse-lite">caniuse-lite</a>
+      </p>
+      <p>{{ versions.caniuse }}</p>
+    </div>
   </footer>
 </template>
 
@@ -189,10 +194,17 @@ body {
   background-color: #424242;
   border-bottom: rgba(255, 255, 255, 0.12) 1px solid;
 }
+.progress {
+  margin-top: 10px;
+}
 main {
   position: relative;
   display: flex;
   gap: 50px;
+  text-align: center;
+}
+section:nth-child(1) {
+  margin-right: 10px;
 }
 footer {
   display: flex;
@@ -202,6 +214,14 @@ footer {
   padding: 30px 0;
   background-color: #424242;
   border-top: rgba(255, 255, 255, 0.12) 1px solid;
+}
+footer div {
+  margin: 10px 0;
+  text-align: center;
+  min-width: 100px;
+}
+footer p {
+  margin: 0;
 }
 
 input {
