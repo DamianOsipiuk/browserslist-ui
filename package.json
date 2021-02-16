@@ -30,9 +30,9 @@
     "update-db": "npx browserslist --update-db"
   },
   "dependencies": {
-    "browserslist": "^4.16.1",
-    "core-js": "^3.8.2",
-    "register-service-worker": "^1.7.1",
+    "browserslist": "^4.16.3",
+    "core-js": "^3.8.3",
+    "register-service-worker": "^1.7.2",
     "vue": "^3.0.5"
   },
   "devDependencies": {
