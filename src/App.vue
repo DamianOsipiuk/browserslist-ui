@@ -1,29 +1,16 @@
 <script lang="ts">
 import browserslist from "browserslist";
-import { computed, ComputedRef, defineComponent, ref, Ref } from "vue";
+import { computed, defineComponent, ref, watchEffect } from "vue";
 
 import Table from "./components/Table.vue";
 import Progress from "./components/Progress.vue";
 import { BrowserType, BrowserData, browserMap } from "./utils";
 import versions from "./versions.json";
 
-interface AppSetupResult {
-  browserString: Ref<string>;
-  queryError: Ref<boolean>;
-  totalCoverage: Ref<string>;
-  versions: {
-    browserslist: string;
-    caniuse: string;
-  };
-  appendQueryToUrl: () => void;
-  desktopBrowsers: ComputedRef<BrowserData[]>;
-  mobileBrowsers: ComputedRef<BrowserData[]>;
-}
-
 export default defineComponent({
   name: "App",
   components: { Table, Progress },
-  setup: (): AppSetupResult => {
+  setup() {
     const browserString = ref(
       new URLSearchParams(window.location.search).get("q") || "defaults",
     );
@@ -41,7 +28,7 @@ export default defineComponent({
       }
     };
 
-    const browserData = computed((): BrowserData[] => {
+    watchEffect(() => {
       let data: Record<string, BrowserData> = {};
       queryError.value = false;
       try {
@@ -75,7 +62,7 @@ export default defineComponent({
         totalCoverage.value = "0";
       }
 
-      return Object.values(data);
+      browserData.value = Object.values(data);
     });
 
     const desktopBrowsers = computed(() => {
