@@ -11,6 +11,9 @@ export default defineComponent({
   name: "App",
   components: { Table, Progress },
   setup() {
+    const worker = ref<ServiceWorker>();
+    const updateExists = ref(false);
+
     const browserString = ref(
       new URLSearchParams(window.location.search).get("q") || "defaults",
     );
@@ -77,6 +80,25 @@ export default defineComponent({
       );
     });
 
+    function showRefreshUI(event: CustomEvent<ServiceWorker>) {
+      worker.value = event.detail;
+      updateExists.value = true;
+    }
+    function refreshApp() {
+      updateExists.value = false;
+      if (!worker.value) {
+        // eslint-disable-next-line no-console
+        console.warn("No worker data found when trying to refresh!");
+        return;
+      }
+      worker.value.postMessage({ type: "SKIP_WAITING" });
+    }
+
+    // @ts-expect-error FIXME
+    document.addEventListener("worker-updated", showRefreshUI, {
+      once: true,
+    });
+
     return {
       browserString,
       queryError,
@@ -85,6 +107,10 @@ export default defineComponent({
       appendQueryToUrl,
       desktopBrowsers,
       mobileBrowsers,
+
+      showRefreshUI,
+      refreshApp,
+      updateExists,
     };
   },
 });
@@ -92,6 +118,9 @@ export default defineComponent({
 
 <template>
   <h1>Browserslist UI</h1>
+  <button class="update-button" v-if="updateExists" @click="refreshApp">
+    New version available! Click to update.
+  </button>
   <div class="query">
     <div class="input">
       <input
@@ -252,5 +281,14 @@ a {
 
 .error {
   color: red;
+}
+
+.update-button {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  height: 50px;
+  background: #424242;
+  color: white;
 }
 </style>
