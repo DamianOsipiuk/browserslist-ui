@@ -285,10 +285,11 @@ a {
 
 .update-button {
   position: fixed;
-  top: 10px;
-  right: 10px;
+  top: 5px;
+  right: 5px;
   height: 50px;
   background: #424242;
   color: white;
+  z-index: 3;
 }
 </style>
